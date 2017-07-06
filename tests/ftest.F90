@@ -690,7 +690,7 @@
       integer mpiv
       integer mpisv
 
-      print *, "Testint MPI_Get_Version"
+      print *, "Testing MPI_Get_Version"
 
       call mpi_get_version(mpiv, mpisv, ierr)
       if (ierr /= MPI_SUCCESS) then
