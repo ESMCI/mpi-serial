@@ -4,6 +4,7 @@ dnl specify config header file
 AC_CONFIG_HEADER(config.h)
 dnl find c compiler, and fort compiler
 AC_PROG_CC
+AC_FC_SRCEXT(F90)
 AC_PROG_FC
 
 # ARCHIVE COMMAND SIMILAR ACROSS ALL PLATFORMS
