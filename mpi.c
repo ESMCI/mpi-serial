@@ -158,7 +158,7 @@ FC_FUNC( mpi_init_fort , MPI_INIT_FORT)
 
 int MPI_Init_thread(int *argc, char **argv[], int required, int *provided)
 {
-    provided = *required;
+    *provided = required;
     return MPI_Init(argc, argv);
 }
 
