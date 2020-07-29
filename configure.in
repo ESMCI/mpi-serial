@@ -24,6 +24,9 @@ if test -z "$RANLIB"; then
     fi
 fi
 
+AC_CHECK_HEADERS(stdbool.h)
+AC_CHECK_TYPES([bool], [], [], [[#include <stdbool.h>]])
+
 dnl determine fortran name-mangling
 dnl result functions end up in config.h
 AC_FC_WRAPPERS
