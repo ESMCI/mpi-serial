@@ -11,6 +11,10 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_STDBOOL_H
+#include <stdbool.h>
+#endif
+
 //predefined type value used in typemap
 typedef int Simpletype;
 
@@ -78,6 +82,8 @@ typedef Typestruct* Datatype;
 #define SIMPLE_ULONGLONG   33
 
 #define SIMPLE_OFFSET      34
+
+#define SIMPLE_CBOOL       35
 
 //internal type functions
 int Simpletype_length(Simpletype s);

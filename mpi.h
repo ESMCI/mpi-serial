@@ -140,6 +140,8 @@ typedef int MPI_Datatype;
 
 #define MPI_OFFSET              (-45)
 
+#define MPI_C_BOOL              (-46)
+
 
 /*
  * Fortran int size

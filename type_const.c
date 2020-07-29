@@ -162,6 +162,15 @@ Typestruct TSoffset = {.count = 1,   .lb = 0,   .ub=sizeof(MPI_Offset),
 			    {.disp = 0,   .type = (Simpletype) SIMPLE_OFFSET }};
 
 
+Typestruct TScbool   = {.count=1,     .lb=0,
+#ifdef HAVE_BOOL
+                        .ub=sizeof(bool),
+#else
+                        /* Assume the size of bool is 1 byte */
+                        .ub=1,
+#endif
+                       .committed=1, .o_lb=0, .o_ub=0, .pairs[0] =
+                       {.disp = 0,   .type = (Simpletype) SIMPLE_CBOOL }};
 
  /* RML NOTE: the order and numbering of the elements of simpletypes[] MUST match
   * the values for the MPI type constants e.g. MPI_INT
@@ -180,7 +189,7 @@ Typestruct TSoffset = {.count = 1,   .lb = 0,   .ub=sizeof(MPI_Offset),
                        &TSinteger2, &TSinteger4  , &TSinteger8   , &TSinteger16,  //32
                        &TSreal4	  , &TSreal8	 , &TSreal16     , &TScomplex8,   //36
                        &TScomplex16, &TScomplex32, &TSlonglong   , &TSulonglong,  //40
-                       &TSoffset
+                       &TSoffset, &TScbool
                        };
 
 

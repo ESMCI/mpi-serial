@@ -133,6 +133,13 @@ int Simpletype_length(Simpletype t)
       return sizeof(unsigned long long); break;
     case SIMPLE_OFFSET:
       return sizeof(MPI_Offset); break;
+    case SIMPLE_CBOOL:
+#ifdef HAVE_BOOL
+      return sizeof(bool); break;
+#else
+      printf("Invalid simple type. bool type is not available\n");
+      exit(1);
+#endif
 
     default:
       printf("Invalid simple type\n");
