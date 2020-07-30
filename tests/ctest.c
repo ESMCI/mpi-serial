@@ -6,6 +6,10 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_STDBOOL_H
+#include <stdbool.h>
+#endif
+
 #ifdef TEST_INTERNAL
 #include <mpiP.h>
 #include <type.h>
@@ -15,6 +19,268 @@ MPI_Request req;
 
 
 int errcount = 0;
+
+// Non-blocking sends/recvs of basic MPI types
+void test_isend_irecv()
+{
+#ifndef TEST_INTERNAL
+#define NUM_ELEMS 5
+  char cdata[NUM_ELEMS] = {'a', 'A', 'b', 'B', 'c'};
+  char crbuf[NUM_ELEMS] = {'d', 'd', 'd', 'd', 'd'};
+  short sdata[NUM_ELEMS] = {0, 1, -1, 2, -4};
+  short srbuf[NUM_ELEMS] = {8, 8, 8, 8, 8};
+  int idata[NUM_ELEMS] = {0, 1, -1, 2, -4};
+  int irbuf[NUM_ELEMS] = {8, 8, 8, 8, 8};
+  long ldata[NUM_ELEMS] = {0, 1, -1, 2, -4};
+  long lrbuf[NUM_ELEMS] = {8, 8, 8, 8, 8};
+
+  unsigned char ucdata[NUM_ELEMS] = {'e', 'E', 'f', 'F', 'g'};
+  unsigned short usdata[NUM_ELEMS] = {8, 9, 0, 16, 32};
+  unsigned int uidata[NUM_ELEMS] = {8, 9, 0, 16, 32};
+  unsigned long uldata[NUM_ELEMS] = {8, 9, 0, 16, 32};
+
+  float fdata[NUM_ELEMS] = {0, 1.2, -1.2, 2.3, -2.3};
+  float frbuf[NUM_ELEMS] = {4.0, 4.0, 4.0, 4.0, 4.0};
+  double ddata[NUM_ELEMS] = {0, 1.2, -1.2, 2.3, -2.3};
+  double drbuf[NUM_ELEMS] = {4.0, 4.0, 4.0, 4.0, 4.0};
+
+  long long int llidata[NUM_ELEMS] = {0, 1, -1, 2, -4};
+  long long int llirbuf[NUM_ELEMS] = {8, 8, 8, 8, 8};
+  unsigned long long int ullidata[NUM_ELEMS] = {8, 9, 0, 16, 32};
+#ifdef HAVE_BOOL
+  bool bdata[NUM_ELEMS] = {true, false, false, true, false};
+  bool brbuf[NUM_ELEMS] = {false, true, true, false, true};
+#endif /* #ifdef HAVE_BOOL */
+  int i = 0;
+  const int TAG = 0;
+  const int NREQS = 2;
+  MPI_Request reqs[NREQS];
+  MPI_Status statuses[NREQS];
+
+  printf("Testing MPI_Isend/MPI_Irecv for :\n");
+  printf("\t[MPI_CHAR, MPI_SHORT, MPI_INT, MPI_LONG,\n");
+  printf("\t MPI_UNSIGNED_CHAR, MPI_UNSIGNED_SHORT, MPI_UNSIGNED, MPI_UNSIGNED_LONG,\n");
+  printf("\t MPI_FLOAT, MPI_DOUBLE, MPI_LONG_LONG_INT, MPI_UNSIGNED_LONG_LONG,\n");
+#ifdef HAVE_BOOL
+  printf("\t MPI_BOOL,\n");
+#endif
+  printf("\t MPI_BYTE] types\n");
+
+  /* Test MPI_CHAR */
+  MPI_Isend(&cdata, NUM_ELEMS, MPI_CHAR, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&crbuf, NUM_ELEMS, MPI_CHAR, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (cdata[i] != crbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_CHAR failed, received %c (expected %c)\n",
+        crbuf[i], cdata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_SHORT */
+  MPI_Isend(&sdata, NUM_ELEMS, MPI_SHORT, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&srbuf, NUM_ELEMS, MPI_SHORT, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (sdata[i] != srbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_SHORT failed, received %d (expected %d)\n",
+        (int )srbuf[i], (int )sdata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_INT */
+  MPI_Isend(&idata, NUM_ELEMS, MPI_INT, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&irbuf, NUM_ELEMS, MPI_INT, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (idata[i] != irbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_INT failed, received %d (expected %d)\n",
+        irbuf[i], idata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_LONG */
+  MPI_Isend(&ldata, NUM_ELEMS, MPI_LONG, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&lrbuf, NUM_ELEMS, MPI_LONG, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (ldata[i] != lrbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_LONG failed, received %ld (expected %ld)\n",
+        lrbuf[i], ldata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_UNSIGNED_CHAR */
+  MPI_Isend(&ucdata, NUM_ELEMS, MPI_UNSIGNED_CHAR, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&crbuf, NUM_ELEMS, MPI_UNSIGNED_CHAR, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (ucdata[i] != crbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_UNSIGNED_CHAR failed, received %c (expected %c)\n",
+        crbuf[i], ucdata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_UNSIGNED_SHORT */
+  MPI_Isend(&usdata, NUM_ELEMS, MPI_UNSIGNED_SHORT, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&srbuf, NUM_ELEMS, MPI_UNSIGNED_SHORT, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (usdata[i] != srbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_UNSIGNED_SHORT failed, received %d (expected %d)\n",
+        (int )srbuf[i], (int )usdata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_UNSIGNED */
+  MPI_Isend(&uidata, NUM_ELEMS, MPI_UNSIGNED, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&irbuf, NUM_ELEMS, MPI_UNSIGNED, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (uidata[i] != irbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_UNSIGNED failed, received %u (expected %u)\n",
+        irbuf[i], uidata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_UNSIGNED_LONG */
+  MPI_Isend(&uldata, NUM_ELEMS, MPI_UNSIGNED_LONG, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&lrbuf, NUM_ELEMS, MPI_UNSIGNED_LONG, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (uldata[i] != lrbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_UNSIGNED_LONG failed, received %lu (expected %lu)\n",
+        lrbuf[i], uldata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_FLOAT */
+  MPI_Isend(&fdata, NUM_ELEMS, MPI_FLOAT, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&frbuf, NUM_ELEMS, MPI_FLOAT, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (fdata[i] != frbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_FLOAT failed, received %f (expected %f)\n",
+        frbuf[i], fdata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_DOUBLE */
+  MPI_Isend(&ddata, NUM_ELEMS, MPI_DOUBLE, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&drbuf, NUM_ELEMS, MPI_DOUBLE, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (ddata[i] != drbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_DOUBLE failed, received %f (expected %f)\n",
+        drbuf[i], ddata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_LONG_LONG_INT */
+  MPI_Isend(&llidata, NUM_ELEMS, MPI_LONG_LONG_INT, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&llirbuf, NUM_ELEMS, MPI_LONG_LONG_INT, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (llidata[i] != llirbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_LONG_LONG_INT failed, received %lld (expected %lld)\n",
+        llirbuf[i], llidata[i]);
+      errcount++;
+    }
+  }
+
+  /* Test MPI_UNSIGNED_LONG_LONG */
+  MPI_Isend(&ullidata, NUM_ELEMS, MPI_UNSIGNED_LONG_LONG, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&llirbuf, NUM_ELEMS, MPI_UNSIGNED_LONG_LONG, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (ullidata[i] != llirbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_LONG_LONG_INT failed, received %llu (expected %llu)\n",
+        llirbuf[i], ullidata[i]);
+      errcount++;
+    }
+  }
+
+#ifdef HAVE_BOOL
+  /* Test MPI_C_BOOL */
+  MPI_Isend(&bdata, NUM_ELEMS, MPI_C_BOOL, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&brbuf, NUM_ELEMS, MPI_C_BOOL, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (bdata[i] != brbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_C_BOOL failed, received %d (expected %d)\n",
+        (int )brbuf[i], (int )bdata[i]);
+      errcount++;
+    }
+  }
+#endif /* #ifdef HAVE_BOOL */
+
+  /* Test MPI_BYTE */
+  MPI_Isend(&ucdata, NUM_ELEMS, MPI_BYTE, 0, TAG, MPI_COMM_WORLD, &reqs[0]);
+  MPI_Irecv(&crbuf, NUM_ELEMS, MPI_BYTE, 0, TAG, MPI_COMM_WORLD, &reqs[1]);
+  MPI_Waitall(NREQS, reqs, statuses);
+  for (i = 0; i < NUM_ELEMS; i++)
+  {
+    if (ucdata[i] != crbuf[i])
+    {
+      printf(">>>FAILED: test_isend_irecv\n");
+      printf(">>>FAILED: Sending/receiving MPI_BYTE failed, received %c (expected %c)\n",
+        crbuf[i], ucdata[i]);
+      errcount++;
+    }
+  }
+#undef NUM_ELEMS
+#endif /* #ifndef TEST_INTERNAL */
+}
+
 //simplest example:  contiguous
 // type of 5 MPI_INT
 
@@ -941,6 +1207,7 @@ int main(int argc, char ** argv)
 #ifdef TEST_INTERNAL
   printf("Using internal tests\n");
 #endif
+  test_isend_irecv();
   test_simple_contig();
   test_simple_vector();
   test_simple_hvector();
