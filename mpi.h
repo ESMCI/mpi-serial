@@ -400,6 +400,7 @@ extern int MPI_Pack_size(int incount, MPI_Datatype type, MPI_Comm comm, MPI_Aint
 
 /* Error handling stub, not currently functional */
 extern int MPI_Errhandler_set(MPI_Comm comm, MPI_Errhandler handle);
+extern int MPI_Comm_set_errhandler(MPI_Comm comm, MPI_Errhandler handle);
 
 /* new type functions */
 extern int MPI_Get_count(MPI_Status *status, MPI_Datatype datatype, int *count);
