@@ -67,6 +67,7 @@ List of MPI calls supported
 
     general ops
       mpi_init
+      mpi_init_thread
       mpi_finalize
       mpi_abort
       mpi_error_string
