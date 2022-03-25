@@ -81,6 +81,7 @@ typedef Typestruct* Datatype;
 
 //internal type functions
 int Simpletype_length(Simpletype s);
+int Type_extent(Datatype datatype, MPI_Aint * extent);
 
 //testing only
 int print_typemap(MPI_Datatype in);

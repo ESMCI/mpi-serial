@@ -302,6 +302,17 @@ int MPI_Initialized(int *flag)
 
 /**********/
 
+int MPI_Get_library_version(char *version, int *resultlen)
+{
+
+    strncpy(version,mpi_version_string,MPI_MAX_LIBRARY_VERSION_STRING);
+    // Make sure it is null terminated
+    version[MPI_MAX_LIBRARY_VERSION_STRING-1]='\0';
+    *resultlen=strlen(version);
+
+    return(MPI_SUCCESS);
+}
+
 
 void FC_FUNC( mpi_get_library_version, MPI_GET_LIBRARY_VERSION) (char *version, int *resultlen, int *ierror)
 {
@@ -318,15 +329,12 @@ void FC_FUNC( mpi_get_library_version, MPI_GET_LIBRARY_VERSION) (char *version, 
 
 
 
-int MPI_Get_library_version(char *version, int *resultlen)
+int MPI_Get_Version(int *mpi_vers, int *mpi_subvers)
 {
+    *mpi_vers = 1;
+    *mpi_subvers = 0;
 
-  strncpy(version,mpi_version_string,MPI_MAX_LIBRARY_VERSION_STRING);
-  // Make sure it is null terminated
-  version[MPI_MAX_LIBRARY_VERSION_STRING-1]='\0';
-  *resultlen=strlen(version);
-
-  return(MPI_SUCCESS);
+    return (MPI_SUCCESS);
 }
 
 /**********/
@@ -335,14 +343,6 @@ void FC_FUNC( mpi_get_version, MPI_GET_VERSION )(int *mpi_vers, int *mpi_subvers
   MPI_Get_Version(mpi_vers, mpi_subvers);
 
   *ierror=MPI_SUCCESS;
-}
-
-int MPI_Get_Version(int *mpi_vers, int *mpi_subvers)
-{
-  *mpi_vers = 1;
-  *mpi_subvers = 0;
-
-  return (MPI_SUCCESS);
 }
 
 /**********/
