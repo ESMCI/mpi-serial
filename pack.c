@@ -57,6 +57,20 @@ int Pack(void *inbuf, int incount, Datatype type,
   }
 }
 
+int Pack_size(int incount, Datatype datatype,
+              Comm * comm, MPI_Aint * size)
+{
+    int i;
+    *size = 0;
+    //sum up all sizes
+    for(i = 0; i < datatype->count; i++)
+    {
+        *size += Simpletype_length(datatype->pairs[i].type);
+    }
+    *size *= incount;
+    printf("Size = %d\n", *size);
+}
+
 FC_FUNC( mpi_pack_size, MPI_PACK_SIZE )(int * incount, int * datatype,
                                           int * comm, long * size, int *ierr)
 {
@@ -75,20 +89,6 @@ int MPI_Pack_size(int incount, MPI_Datatype datatype,
   return ret;
 }
 
-
-int Pack_size(int incount, Datatype datatype,
-                   Comm * comm, MPI_Aint * size)
-{
-  int i;
-  *size = 0;
-  //sum up all sizes
-  for(i = 0; i < datatype->count; i++)
-  {
-    *size += Simpletype_length(datatype->pairs[i].type);
-  }
-  *size *= incount;
-  printf("Size = %d\n", *size);
-}
 
 
 /*
