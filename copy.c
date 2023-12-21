@@ -84,6 +84,7 @@ int Pcopy_data2(void *source, int src_count, Datatype src_type,
 
     memcpy(dest+doffset, source+soffset, Simpletype_length(dest_type->pairs[i % dest_type->count].type));
   }
+  return MPI_SUCCESS;
 }
 
 
