@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: load-env
         run: |
           sudo apt-get update
@@ -21,6 +21,6 @@ jobs:
       - name: Build mpi-serial
         id: build
         run: |
-          cd mpi-serial
+          cd $GITHUB_WORKSPACE
           configure
           make
