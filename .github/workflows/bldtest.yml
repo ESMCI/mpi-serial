@@ -10,16 +10,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v3
-    - id: load-env
-      run: |
-        sudo apt-get update
-        sudo apt-get install gfortran
-        sudo apt-get install autoconf
+    steps:
+      - uses: actions/checkout@v3
+        - id: load-env
+          run: |
+            sudo apt-get update
+            sudo apt-get install gfortran
+            sudo apt-get install autoconf
         
-    - name: Build mpi-serial
-      run: |
-        cd mpi-serial
-        configure
-        make
+        - name: Build mpi-serial
+          id: build
+          run: |
+            cd mpi-serial
+            configure
+            make
