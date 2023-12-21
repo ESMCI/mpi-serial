@@ -21,6 +21,6 @@ jobs:
       - name: Build mpi-serial
         id: build
         run: |
-          cd $GITHUB_WORKSPACE/mpi-serial
+          cd $GITHUB_WORKSPACE
           ./configure
           make
