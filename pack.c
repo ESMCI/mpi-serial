@@ -9,12 +9,13 @@
  */
 
 
-FC_FUNC( mpi_pack , MPI_PACK )
+int FC_FUNC( mpi_pack , MPI_PACK )
      ( void *inbuf, int *incount, int *datatype,
        void *outbuf, int *outsize, int *position, int *comm, int *ierror)
 {
   *ierror=MPI_Pack(inbuf, *incount,* datatype,
   	           outbuf, *outsize, position, *comm);
+  return MPI_SUCCESS;
 }
 
 
@@ -55,6 +56,7 @@ int Pack(void *inbuf, int incount, Datatype type,
       *position += Simpletype_length(type->pairs[j].type);
     }
   }
+  return MPI_SUCCESS;
 }
 
 int Pack_size(int incount, Datatype datatype,
@@ -69,12 +71,14 @@ int Pack_size(int incount, Datatype datatype,
     }
     *size *= incount;
     printf("Size = %d\n", *size);
+  return MPI_SUCCESS;
 }
 
-FC_FUNC( mpi_pack_size, MPI_PACK_SIZE )(int * incount, int * datatype,
-                                          int * comm, long * size, int *ierr)
+int FC_FUNC( mpi_pack_size, MPI_PACK_SIZE )(int * incount, int * datatype,
+                                          int * comm, MPI_Aint * size, int *ierr)
 {
   *ierr = MPI_Pack_size(*incount, *datatype, *comm, size);
+  return MPI_SUCCESS;
 }
 
 int MPI_Pack_size(int incount, MPI_Datatype datatype,
@@ -96,13 +100,14 @@ int MPI_Pack_size(int incount, MPI_Datatype datatype,
  */
 
 
-FC_FUNC( mpi_unpack , MPI_UNPACK )
+int FC_FUNC( mpi_unpack , MPI_UNPACK )
      ( void *inbuf, int *insize, int *position,
        void *outbuf, int *outcount, int *datatype,
        int *comm, int *ierror )
 {
   *ierror=MPI_Unpack( inbuf, *insize, position,
                       outbuf, *outcount, *datatype, *comm);
+  return MPI_SUCCESS;
 }
 
 
@@ -140,6 +145,7 @@ int Unpack(void * inbuf, int insize, int * position, void *outbuf,
       *position += Simpletype_length(type->pairs[j].type);
     }
   }
+  return MPI_SUCCESS;
 }
 
 

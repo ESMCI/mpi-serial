@@ -24,13 +24,14 @@ static int mpi_match_send(void *r, void *tag)
 
 
 
-FC_FUNC( mpi_irecv , MPI_IRECV )(void *buf, int *count, int *datatype,
+int FC_FUNC( mpi_irecv , MPI_IRECV )(void *buf, int *count, int *datatype,
 				   int *source, int *tag, int *comm,
 				   int *request, int *ierror)
 {
 
   *ierror=MPI_Irecv(buf,*count,*datatype,*source,*tag,
 		    *comm, (void *)request);
+  return MPI_SUCCESS;
 
 }
 
@@ -71,7 +72,7 @@ int MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
     }
 
 
-  if ( match=AP_list_search_func(mycomm->sendlist,mpi_match_send,&tag) )
+  if (( match=AP_list_search_func(mycomm->sendlist,mpi_match_send,&tag) ))
     {
       sreq=(Req *)AP_listitem_data(match);
       AP_list_delete_item(mycomm->sendlist,match);
@@ -108,12 +109,13 @@ int MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
 /*********/
 
 
-FC_FUNC( mpi_recv , MPI_RECV )(void *buf, int *count, int *datatype,
+int FC_FUNC( mpi_recv , MPI_RECV )(void *buf, int *count, int *datatype,
 				 int *source, int *tag, int *comm,
 				 int *status, int *ierror)
 {
   *ierror=MPI_Recv(buf,*count,*datatype,*source,*tag,*comm,
 		   mpi_c_status(status));
+  return MPI_SUCCESS;
 }
 
 
