@@ -1,5 +1,6 @@
 dnl initialize autoconf
-AC_INIT
+AC_INIT([mpi-serial], [2.4.1], [https://github.com/ESMCI/mpi-serial])
+AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([mpi.h])
 dnl specify config header file
 AC_CONFIG_HEADERS([config.h])
@@ -10,7 +11,7 @@ AC_PROG_FC
 # ARCHIVE COMMAND SIMILAR ACROSS ALL PLATFORMS
 AC_ARG_VAR(AR,Archive Command)
 if test -z "$AR"; then
-   AR="ar cruv"
+   AR=ar
 fi
 
 # RANLIB
@@ -58,9 +59,9 @@ AC_ARG_ENABLE([type-checking],
 # taken from the MCT configure
 
 AC_ARG_VAR(INCLUDEFLAG,Fortran compiler flag for specifying module search path)
-AC_LANG_PUSH(Fortran)
-AX_FC_VERSION()
-AC_LANG_POP(Fortran)
+#AC_LANG_PUSH(Fortran)
+#AX_FC_VERSION()
+#AC_LANG_POP(Fortran)
 
 
 if echo $ac_fc_version_output | grep -i absoft >/dev/null 2>&1; then
@@ -135,5 +136,5 @@ if test -z "$INCLUDEFLAG"; then
 fi
 
 
-AC_CONFIG_FILES([Makefile.conf])
+AC_CONFIG_FILES([Makefile tests/Makefile])
 AC_OUTPUT
