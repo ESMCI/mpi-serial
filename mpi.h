@@ -60,6 +60,30 @@ typedef int MPI_Group;
 #define MPI_UNDEFINED (-1)
 
 
+/* for the datatype decoders */                                                                                                            
+enum MPIR_Combiner_enum {                                                                                                                  
+    MPI_COMBINER_NAMED            = 1,                                                                                                     
+    MPI_COMBINER_DUP              = 2,                                                                                                     
+    MPI_COMBINER_CONTIGUOUS       = 3,                                                                                                     
+    MPI_COMBINER_VECTOR           = 4,                                                                                                     
+    MPI_COMBINER_HVECTOR_INTEGER  = 5,                                                                                                     
+    MPI_COMBINER_HVECTOR          = 6,                                                                                                     
+    MPI_COMBINER_INDEXED          = 7,                                                                                                     
+    MPI_COMBINER_HINDEXED_INTEGER = 8,                                                                                                     
+    MPI_COMBINER_HINDEXED         = 9,                                                                                                     
+    MPI_COMBINER_INDEXED_BLOCK    = 10,                                                                                                    
+    MPI_COMBINER_STRUCT_INTEGER   = 11,                                                                                                    
+    MPI_COMBINER_STRUCT           = 12,                                                                                                    
+    MPI_COMBINER_SUBARRAY         = 13,                                                                                                    
+    MPI_COMBINER_DARRAY           = 14,                                                                                                    
+    MPI_COMBINER_F90_REAL         = 15,                                                                                                    
+    MPI_COMBINER_F90_COMPLEX      = 16,                                                                                                    
+    MPI_COMBINER_F90_INTEGER      = 17,                                                                                                    
+    MPI_COMBINER_RESIZED          = 18,                                                                                                    
+    MPI_COMBINER_HINDEXED_BLOCK   = 19                                                                                                     
+};                                          
+
+
 /*
  * Data types etc.
  */
@@ -76,6 +100,8 @@ typedef int MPI_Datatype;
 
 //C types
 #define MPI_CHAR            (-1)
+#define MPI_SIGNED_CHAR     (-46)
+#define MPI_WCHAR           (-47)
 #define MPI_SHORT           (-2)
 #define MPI_INT             (-3)
 #define MPI_LONG            (-4)

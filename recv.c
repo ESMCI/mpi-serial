@@ -12,7 +12,8 @@
 
 static int mpi_match_send(void *r, void *tag)
 {
-  return( *((int *)tag) == MPI_ANY_TAG ||
+//    printf("mpi_match_send %d %d\n",*(int *)tag, ((Req *) r)->tag);
+    return( *((int *)tag) == MPI_ANY_TAG ||
 	  *((int *)tag) == ((Req *)r)->tag );
 }
 
@@ -53,7 +54,6 @@ int MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
 	 mycomm->num,tag,count,datatype);
 #endif
 
-
   if (source!=0 && source!=MPI_ANY_SOURCE && source!=MPI_PROC_NULL)
     {
       fprintf(stderr,"MPI_Irecv: bad source %d\n",source);
@@ -61,7 +61,8 @@ int MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
     }
 
   mpi_alloc_handle(request,(void **)&rreq);
-
+  rreq->type = datatype;
+  rreq->count = count;
   if (source==MPI_PROC_NULL)
     {
       rreq->complete=1;

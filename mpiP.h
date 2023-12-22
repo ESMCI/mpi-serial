@@ -98,7 +98,8 @@ typedef struct
   int source;
   int tag;
   int complete;
-
+  int count;
+  MPI_Datatype type;  /* needed for test_simple_bindexed2 */
 } Req;
 
 
