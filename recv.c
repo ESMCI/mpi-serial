@@ -12,7 +12,6 @@
 
 static int mpi_match_send(void *r, void *tag)
 {
-//    printf("mpi_match_send %d %d\n",*(int *)tag, ((Req *) r)->tag);
     return( *((int *)tag) == MPI_ANY_TAG ||
 	  *((int *)tag) == ((Req *)r)->tag );
 }

@@ -1,4 +1,3 @@
-
 #include "mpiP.h"
 
 
@@ -11,7 +10,6 @@
 
 static int mpi_match_recv(void *r, void *tag)
 {
-//    printf("mpi_match_recv %d %d\n",*((int *) tag), ((Req *)r)->tag);
     return( ((Req *)r)->tag == MPI_ANY_TAG ||
 	  ((Req *)r)->tag == *((int *)tag) );
 }
@@ -69,8 +67,6 @@ int MPI_Isend(void *buf, int count, MPI_Datatype datatype,
       rreq=(Req *)AP_listitem_data(match);
       AP_list_delete_item(mycomm->recvlist,match);
 
-//      memcpy(rreq->buf,buf,count * datatype);
-//      printf("calling copy datatype %d %d %d %d\n",(int) datatype, count, rreq->type, rreq->count);
       copy_data2(buf, count, datatype, rreq->buf, rreq->count, rreq->type);
       rreq->complete=1;
       rreq->source=0;
