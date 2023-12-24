@@ -59,7 +59,6 @@ typedef int MPI_Group;
 
 #define MPI_UNDEFINED (-1)
 
-
 /*
  * Data types etc.
  */
@@ -76,6 +75,8 @@ typedef int MPI_Datatype;
 
 //C types
 #define MPI_CHAR            (-1)
+#define MPI_SIGNED_CHAR     (-46)
+#define MPI_WCHAR           (-47)
 #define MPI_SHORT           (-2)
 #define MPI_INT             (-3)
 #define MPI_LONG            (-4)
