@@ -59,9 +59,6 @@ AC_ARG_ENABLE([type-checking],
 # taken from the MCT configure
 
 AC_ARG_VAR(INCLUDEFLAG,Fortran compiler flag for specifying module search path)
-#AC_LANG_PUSH(Fortran)
-#AX_FC_VERSION()
-#AC_LANG_POP(Fortran)
 
 
 if echo $ac_fc_version_output | grep -i absoft >/dev/null 2>&1; then
