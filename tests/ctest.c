@@ -242,7 +242,8 @@ void test_simple_bindexed2()
   int i;
   MPI_Request rcvid;
   MPI_Status status;
-
+  int mpierr;
+  
   //block indexed of simple types
   printf("\nBlock indexed type of MPI_INT, sending MPI_INT.\n");
 
@@ -257,7 +258,18 @@ void test_simple_bindexed2()
 
   mpierr = MPI_Type_create_indexed_block(len, blocksize, displace,
 					 MPI_INT, &mtype);
+  if(mpierr){
+      printf("\n>>>FAILED: %d %d\n",__LINE__,mpierr);
+      errcount++;
+      return;
+  }
   mpierr = MPI_Type_commit(&mtype);
+  if(mpierr){
+      printf("\n>>>FAILED: %d %d\n",__LINE__,mpierr);
+      errcount++;
+      return;
+  }
+
   
 #ifdef TEST_INTERNAL
   copy_data(&a, &b, indexed_type);
@@ -266,12 +278,27 @@ void test_simple_bindexed2()
   
   mpierr = MPI_Irecv(rbuf, 1, mtype,
 		     0, 1, MPI_COMM_WORLD, &rcvid);
+  if(mpierr){
+      printf("\n>>>FAILED: %d %d\n",__LINE__,mpierr);
+      errcount++;
+      return;
+  }
 
   mpierr = MPI_Send(sbuf, 4, MPI_INT,
 		    0, 1, MPI_COMM_WORLD);
-
+  if(mpierr){
+      printf("\n>>>FAILED: %d %d\n",__LINE__,mpierr);
+      errcount++;
+      return;
+  }
 
   mpierr = MPI_Wait(&rcvid, &status);
+  if(mpierr){
+      printf("\n>>>FAILED: %d %d\n",__LINE__,mpierr);
+      errcount++;
+      return;
+  }
+
 #endif
 
   printf("a = [");
