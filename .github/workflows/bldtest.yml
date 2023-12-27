@@ -22,5 +22,7 @@ jobs:
         id: build
         run: |
           cd $GITHUB_WORKSPACE
+          autoreconf -i
           ./configure CFLAGS="-Wall -Werror -Wno-format"
           make
+          make check
