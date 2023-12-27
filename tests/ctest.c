@@ -233,7 +233,6 @@ void test_simple_bindexed()
 
 void test_simple_bindexed2()
 {
-  int mpierr;
   int blocksize=1;
   int len=4;
   int displace[len];
@@ -492,7 +491,6 @@ void test_simple_struct()
 
 void test_complex_struct()
 {
-  MPI_Datatype sstruct;
   typedef struct {long a; long b; char c; int d; int e;} st;
   typedef struct {st a; int b; char c;} st2;
   st s1 = {.a = 100, .b = 200, .c = 'x', .d = 45, .e = 50};
