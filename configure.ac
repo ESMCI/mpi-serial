@@ -1,6 +1,6 @@
 dnl initialize autoconf
 AC_INIT([mpi-serial], [2.5.0], [https://github.com/ESMCI/mpi-serial])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([mpi.h])
 dnl specify config header file
 AC_CONFIG_HEADERS([config.h])
