@@ -438,4 +438,13 @@ extern int MPI_Type_ub(MPI_Datatype datatype, MPI_Aint * ub);
 
 extern double MPI_Wtime(void);
 
+
+
+/*
+ * Additional interfaces needed for compiling E3SM with gcc-14
+ */
+extern int MPI_Get_Version(int *mpi_vers, int *mpi_subvers);
+extern int MPI_Get_library_version(char *version, int *resultlen);
+extern int MPI_Info_free(MPI_Info *info);
+
 #endif

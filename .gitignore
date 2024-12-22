@@ -3,3 +3,5 @@
 *.mod
 Makefile.conf
 config.h
+diff_version.sh
+
