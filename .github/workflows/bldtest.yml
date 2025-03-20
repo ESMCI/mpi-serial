@@ -25,4 +25,4 @@ jobs:
           autoreconf -i
           ./configure CFLAGS="-Wall -Werror -Wno-format"
           make
-          make check
+          make tests
