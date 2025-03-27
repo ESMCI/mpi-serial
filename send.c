@@ -33,7 +33,7 @@ int FC_FUNC( mpi_isend , MPI_ISEND )(void *buf, int *count, int *datatype,
 
 
 
-int MPI_Isend(void *buf, int count, MPI_Datatype datatype,
+int MPI_Isend(const void *buf, int count, MPI_Datatype datatype,
 	      int dest, int tag, MPI_Comm comm, MPI_Request *request)
 {
   pListitem match;
@@ -82,7 +82,7 @@ int MPI_Isend(void *buf, int count, MPI_Datatype datatype,
       return(MPI_SUCCESS);
     }
 
-  sreq->buf=buf;
+  sreq->buf=(int*)buf;
   sreq->tag=tag;
   sreq->complete=0;
   sreq->listitem=AP_list_append(mycomm->sendlist,sreq);
@@ -107,7 +107,7 @@ int FC_FUNC(mpi_send, MPI_SEND) ( void *buf, int *count, int *datatype,
 
 
 
-int MPI_Send(void* buf, int count, MPI_Datatype datatype,
+int MPI_Send(const void* buf, int count, MPI_Datatype datatype,
 	     int dest, int tag, MPI_Comm comm)
 {
   MPI_Request request;
@@ -140,7 +140,7 @@ int FC_FUNC(mpi_ssend, MPI_SSEND) ( void *buf, int *count, int *datatype,
 
 
 
-int MPI_Ssend(void* buf, int count, MPI_Datatype datatype,
+int MPI_Ssend(const void* buf, int count, MPI_Datatype datatype,
               int dest, int tag, MPI_Comm comm)
 {
   return(MPI_Send(buf,count,datatype,dest,tag,comm));
@@ -160,7 +160,7 @@ int FC_FUNC(mpi_rsend, MPI_RSEND) ( void *buf, int *count, int *datatype,
 
 
 
-int MPI_Rsend(void* buf, int count, MPI_Datatype datatype,
+int MPI_Rsend(const void* buf, int count, MPI_Datatype datatype,
               int dest, int tag, MPI_Comm comm)
 {
   return(MPI_Send(buf,count,datatype,dest,tag,comm));
@@ -185,7 +185,7 @@ int FC_FUNC( mpi_irsend , MPI_IRSEND )(void *buf, int *count, int *datatype,
 
 
 
-int MPI_Irsend(void *buf, int count, MPI_Datatype datatype,
+int MPI_Irsend(const void *buf, int count, MPI_Datatype datatype,
                int dest, int tag, MPI_Comm comm, MPI_Request *request)
 {
   Req *req;
@@ -230,7 +230,7 @@ int FC_FUNC(mpi_sendrecv, MPI_SENDRECV) (
 
 
 
-int MPI_Sendrecv(void* sendbuf, int sendcount, MPI_Datatype sendtype,
+int MPI_Sendrecv(const void* sendbuf, int sendcount, MPI_Datatype sendtype,
                  int dest, int sendtag,
                  void *recvbuf, int recvcount, MPI_Datatype recvtype,
                  int source, int recvtag,

@@ -32,7 +32,7 @@ int FC_FUNC( mpi_info_set , MPI_INFO_SET ) (int *info, char *key, char *value, i
 }
 
 
-int MPI_Info_set(MPI_Info info, char *key, char *value)
+int MPI_Info_set(MPI_Info info, const char *key, const char *value)
 {
   /* for now, don't bother storing anything */
   return(MPI_SUCCESS);
