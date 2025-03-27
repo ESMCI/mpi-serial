@@ -82,7 +82,7 @@ int MPI_Isend(const void *buf, int count, MPI_Datatype datatype,
       return(MPI_SUCCESS);
     }
 
-  sreq->buf=(int*)buf;
+  sreq->buf=(void*)buf; /* Explicit cast to suppress discarded-qualifiers warning */
   sreq->tag=tag;
   sreq->complete=0;
   sreq->listitem=AP_list_append(mycomm->sendlist,sreq);

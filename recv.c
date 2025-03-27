@@ -93,7 +93,7 @@ int MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
       return(MPI_SUCCESS);
     }
 
-  rreq->buf=(int*)buf;
+  rreq->buf=buf;
   rreq->tag=tag;
   rreq->complete=0;
   rreq->listitem=AP_list_append(mycomm->recvlist,rreq);
