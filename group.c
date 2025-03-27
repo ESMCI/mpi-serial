@@ -13,7 +13,7 @@ int FC_FUNC( mpi_group_incl, MPI_GROUP_INCL )
 }
 
 
-int MPI_Group_incl(MPI_Group group, int n, int *ranks, MPI_Group *newgroup)
+int MPI_Group_incl(MPI_Group group, int n, const int ranks[], MPI_Group *newgroup)
 {
 
   if (group==MPI_GROUP_NULL)
@@ -211,7 +211,7 @@ int FC_FUNC( mpi_group_translate_ranks, MPI_GROUP_TRANSLATE_RANKS )
 
 
 
-int MPI_Group_translate_ranks(MPI_Group group1, int n, int *ranks1,
+int MPI_Group_translate_ranks(MPI_Group group1, int n, const int ranks1[],
 			      MPI_Group group2, int *ranks2)
 {
   int i;

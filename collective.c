@@ -65,7 +65,7 @@ int FC_FUNC( mpi_gather , MPI_GATHER )
 }
 
 
-int MPI_Gather(void* sendbuf, int sendcount, MPI_Datatype sendtype,
+int MPI_Gather(const void* sendbuf, int sendcount, MPI_Datatype sendtype,
 	       void* recvbuf, int recvcount, MPI_Datatype recvtype,
 	       int root, MPI_Comm comm)
 {
@@ -104,8 +104,8 @@ int FC_FUNC( mpi_gatherv , MPI_GATHERV )
 }
 
 
-int MPI_Gatherv(void* sendbuf, int sendcount, MPI_Datatype sendtype,
-		void* recvbuf, int *recvcounts, int *displs,
+int MPI_Gatherv(const void* sendbuf, int sendcount, MPI_Datatype sendtype,
+		void* recvbuf, const int recvcounts[], const int displs[],
 		MPI_Datatype recvtype, int root, MPI_Comm comm)
 {
   int offset;
@@ -151,7 +151,7 @@ int FC_FUNC( mpi_allgather , MPI_ALLGATHER )
 }
 
 
-int MPI_Allgather(void* sendbuf, int sendcount, MPI_Datatype sendtype,
+int MPI_Allgather(const void* sendbuf, int sendcount, MPI_Datatype sendtype,
 		  void* recvbuf, int recvcount, MPI_Datatype recvtype,
 		  MPI_Comm comm)
 {
@@ -182,8 +182,8 @@ int FC_FUNC( mpi_allgatherv , MPI_ALLGATHERV )
 }
 
 
-int MPI_Allgatherv(void* sendbuf, int sendcount, MPI_Datatype sendtype,
-		   void* recvbuf, int *recvcounts, int *displs,
+int MPI_Allgatherv(const void* sendbuf, int sendcount, MPI_Datatype sendtype,
+		   void* recvbuf, const int recvcounts[], const int displs[],
                    MPI_Datatype recvtype, MPI_Comm comm)
 {
   int offset;
@@ -222,7 +222,7 @@ int FC_FUNC( mpi_scatter, MPI_SCATTER )
   return MPI_SUCCESS;
 }
 
-int MPI_Scatter(void * sendbuf, int sendcount, MPI_Datatype sendtype,
+int MPI_Scatter(const void * sendbuf, int sendcount, MPI_Datatype sendtype,
 		void * recvbuf, int recvcount, MPI_Datatype recvtype,
 		int root, MPI_Comm comm)
 {
@@ -262,7 +262,7 @@ int FC_FUNC( mpi_scatterv , MPI_SCATTERV )
 
 
 
-int MPI_Scatterv(void* sendbuf, int *sendcounts, int *displs,
+int MPI_Scatterv(const void* sendbuf, const int sendcounts[], const int displs[],
 		 MPI_Datatype sendtype, void* recvbuf, int recvcount,
 		 MPI_Datatype recvtype, int root, MPI_Comm comm)
 {
@@ -307,7 +307,7 @@ int FC_FUNC( mpi_reduce , MPI_REDUCE )
 
 
 
-int MPI_Reduce(void* sendbuf, void* recvbuf, int count,
+int MPI_Reduce(const void* sendbuf, void* recvbuf, int count,
 	       MPI_Datatype datatype, MPI_Op op, int root, MPI_Comm comm)
 
 {
@@ -338,7 +338,7 @@ int FC_FUNC( mpi_allreduce , MPI_ALLREDUCE )
 }
 
 
-int MPI_Allreduce(void* sendbuf, void* recvbuf, int count,
+int MPI_Allreduce(const void* sendbuf, void* recvbuf, int count,
 		  MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
 {
   if (sendbuf==MPI_IN_PLACE)
@@ -369,7 +369,7 @@ int FC_FUNC(mpi_reduce_scatter, MPI_REDUCE_SCATTER)
 }
 
 
-int MPI_Reduce_scatter(void* sendbuf, void* recvbuf, int *recvcounts,
+int MPI_Reduce_scatter(const void* sendbuf, void* recvbuf, const int recvcounts[],
                          MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
 {
   copy_data2(sendbuf, recvcounts[0], datatype, recvbuf, recvcounts[0], datatype);
@@ -392,7 +392,7 @@ int FC_FUNC( mpi_scan , MPI_SCAN)
 
 
 
-int MPI_Scan(void* sendbuf, void* recvbuf, int count,
+int MPI_Scan(const void* sendbuf, void* recvbuf, int count,
              MPI_Datatype datatype, MPI_Op op, MPI_Comm comm )
 {
     copy_data2(sendbuf, count, datatype, recvbuf, count, datatype);
@@ -415,7 +415,7 @@ int FC_FUNC( mpi_alltoall , MPI_ALLTOALL )
 }
 
 
-int MPI_Alltoall(void *sendbuf, int sendcount, MPI_Datatype sendtype,
+int MPI_Alltoall(const void *sendbuf, int sendcount, MPI_Datatype sendtype,
 		 void *recvbuf, int recvcount, MPI_Datatype recvtype,
 		 MPI_Comm comm)
 {
@@ -442,10 +442,10 @@ int FC_FUNC( mpi_alltoallv , MPI_ALLTOALLV )
   return MPI_SUCCESS;
 }
 
-int MPI_Alltoallv(void *sendbuf, int *sendcounts,
-		  int *sdispls, MPI_Datatype sendtype,
-                  void *recvbuf, int *recvcounts,
-		  int *rdispls, MPI_Datatype recvtype,
+int MPI_Alltoallv(const void *sendbuf, const int sendcounts[],
+		  const int sdispls[], MPI_Datatype sendtype,
+                  void *recvbuf, const int recvcounts[],
+		  const int rdispls[], MPI_Datatype recvtype,
                   MPI_Comm comm)
 
 {
@@ -488,10 +488,10 @@ int FC_FUNC( mpi_alltoallw , MPI_ALLTOALLW )
 }
 
 
-int MPI_Alltoallw(void *sendbuf, int *sendcounts,
-		  int *sdispls, MPI_Datatype *sendtypes,
-                  void *recvbuf, int *recvcounts,
-		  int *rdispls, MPI_Datatype *recvtypes,
+int MPI_Alltoallw(const void *sendbuf, const int sendcounts[],
+		  const int sdispls[], const MPI_Datatype sendtypes[],
+                  void *recvbuf, const int recvcounts[],
+		  const int rdispls[], const MPI_Datatype recvtypes[],
                   MPI_Comm comm)
 
 {
