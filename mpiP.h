@@ -94,7 +94,7 @@ typedef struct
 {
   pListitem listitem;        /* to allow Req to be removed from list */
 
-  int *buf;
+  void *buf;
   int source;
   int tag;
   int complete;
@@ -106,7 +106,7 @@ typedef struct
 /****************************************************************************/
 
 /* copy functions */
-extern int copy_data2(void * source, int src_count, MPI_Datatype src_type,
+extern int copy_data2(const void * source, int src_count, MPI_Datatype src_type,
                       void * dest, int dest_count, MPI_Datatype dest_type);
 
 extern void *mpi_malloc(int size);

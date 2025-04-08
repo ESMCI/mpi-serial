@@ -17,7 +17,7 @@ int FC_FUNC( mpi_cart_create , MPI_CART_CREATE )
 }
 
 
-int MPI_Cart_create( MPI_Comm comm_old, int ndims, int *dims, int *periods,
+int MPI_Cart_create( MPI_Comm comm_old, int ndims, const int dims[], const int periods[],
                      int reorder, MPI_Comm *comm_cart)
 {
   int i;
@@ -54,8 +54,8 @@ int FC_FUNC( mpi_cart_get , MPI_CART_GET )
 }
 
 
-int MPI_Cart_get(MPI_Comm comm, int maxdims, int *dims,
-                 int *periods, int *coords)
+int MPI_Cart_get(MPI_Comm comm, int maxdims, int dims[],
+                 int periods[], int coords[])
 {
   int i;
   for (i=0;i<maxdims;i++)
@@ -84,7 +84,7 @@ int FC_FUNC( mpi_cart_coords , MPI_CART_COORDS)
 }
 
 
-int MPI_Cart_coords(MPI_Comm comm, int rank, int maxdims, int *coords)
+int MPI_Cart_coords(MPI_Comm comm, int rank, int maxdims, int coords[])
 {
   int i;
 
@@ -116,7 +116,7 @@ int FC_FUNC( mpi_dims_create , MPI_DIMS_CREATE )
 }
 
 
-int MPI_Dims_create(int nnodes, int ndims, int *dims)
+int MPI_Dims_create(int nnodes, int ndims, int dims[])
 {
   int i;
 

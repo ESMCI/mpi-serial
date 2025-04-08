@@ -90,7 +90,7 @@ int FC_FUNC( mpi_waitany , MPI_WAITANY )(int *count, int *requests,
 
 
 
-int MPI_Waitany(int count, MPI_Request *array_of_requests,
+int MPI_Waitany(int count, MPI_Request array_of_requests[],
                 int *index, MPI_Status *status)
 {
   int flag;
@@ -123,7 +123,7 @@ int FC_FUNC(mpi_testany, MPI_TESTANY)
   return MPI_SUCCESS;
 }
 
-int MPI_Testany(int count,  MPI_Request *array_of_requests,
+int MPI_Testany(int count,  MPI_Request array_of_requests[],
                 int *index, int *flag, MPI_Status *status)
 {
   int i;
@@ -155,7 +155,7 @@ int FC_FUNC(mpi_testall, MPI_TESTALL)
   return MPI_SUCCESS;
 }
 
-int MPI_Testall(int count, MPI_Request *array_of_requests,
+int MPI_Testall(int count, MPI_Request array_of_requests[],
                 int *flag, MPI_Status *array_of_statuses)
 {
   int i;
@@ -190,7 +190,7 @@ int FC_FUNC( mpi_waitall , MPI_WAITALL )(int *count, int *array_of_requests,
 
 
 
-int MPI_Waitall(int count, MPI_Request *array_of_requests,
+int MPI_Waitall(int count, MPI_Request array_of_requests[],
                 MPI_Status *array_of_statuses)
 {
   int i;
@@ -223,8 +223,8 @@ int FC_FUNC(mpi_testsome, MPI_TESTSOME)
   return MPI_SUCCESS;
 }
 
-int MPI_Testsome(int incount, MPI_Request *array_of_requests, int *outcount,
-                 int *array_of_indices, MPI_Status *array_of_statuses)
+int MPI_Testsome(int incount, MPI_Request array_of_requests[], int *outcount,
+                 int array_of_indices[], MPI_Status *array_of_statuses)
 {
   int i;
   int flag;
@@ -256,8 +256,8 @@ int FC_FUNC(mpi_waitsome, MPI_WAITSOME)
   return MPI_SUCCESS;
 }
 
-int MPI_Waitsome(int incount, MPI_Request *array_of_requests, int *outcount,
-                 int *array_of_indices, MPI_Status *array_of_statuses)
+int MPI_Waitsome(int incount, MPI_Request array_of_requests[], int *outcount,
+                 int array_of_indices[], MPI_Status *array_of_statuses)
 {
   MPI_Testsome(incount, array_of_requests, outcount,
                array_of_indices, array_of_statuses);
